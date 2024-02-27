@@ -16,13 +16,13 @@ enum ACL {
     PUBLIC_READ_WRITE = "public-read-write",
 }
 
-export const uploadToS3 = async (file: File) => {
+export const uploadToS3 = async (file: File, acl: string, key: string) => {
   
   const input = {
-    ACL: ACL.PUBLIC_READ,
+    ACL: acl === "public-read" ? ACL.PUBLIC_READ : ACL.PRIVATE,
     Body: file.buffer,
     Bucket: config.AWS_S3_BUCKET,
-    Key: file.originalname, // required
+    Key: key, // required
     /*
     CacheControl: "STRING_VALUE",
     ContentDisposition: "STRING_VALUE",
